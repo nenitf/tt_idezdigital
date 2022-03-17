@@ -13,19 +13,25 @@ class PixTransferTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
-    public function test_it_should_return_a_list_of_pix_transfers()
+    public function test_it_should_return_a_list_of_pix_transfers_of_the_user()
     {
         $user = User::factory()->create();
 
         PixTransfer::factory()
-            ->count(20)
+            ->count(7)
+            ->create([
+                'user_id' => $user->id,
+            ]);
+
+        PixTransfer::factory()
+            ->count(30)
             ->create();
 
         $this
             ->actingAs($user)
             ->get('/api/pix-transfers')
             ->assertSuccessful()
-            ->assertJsonCount(20);
+            ->assertJsonCount(7);
     }
 
     public function test_it_should_return_a_pix_transfer()
@@ -34,7 +40,7 @@ class PixTransferTest extends TestCase
 
         $pixTransfer = PixTransfer::factory()
             ->create([
-                'user_id' => $user->id
+                'user_id' => $user->id,
             ]);
 
         $this
@@ -46,76 +52,49 @@ class PixTransferTest extends TestCase
                 'user_id' => $user->id,
                 'amount' => $pixTransfer->amount,
                 'key' => $pixTransfer->key,
+                'description' => $pixTransfer->description,
             ]);
     }
 
-    public function test_can_create_pix_transfer()
+    public function test_it_should_not_show_a_pix_transfer_of_another_user()
     {
         $user = User::factory()->create();
 
-        $key = $this->faker->text();
+        $pixTransfer = PixTransfer::factory()->create();
+
+        $this
+            ->actingAs($user)
+            ->get("/api/pix-transfers/{$pixTransfer->id}")
+            ->assertNotFound();
+    }
+
+    public function test_it_should_create_a_pix_transfer()
+    {
+        $user = User::factory()->create();
+
+        $key = $this->faker->uuid();
         $amount = $this->faker->randomFloat(2, 1, 100);
-        $user_id = $user->id;
+        $description = $this->faker->text(15);
 
         $this
             ->actingAs($user)
             ->post("/api/pix-transfers", [
                 'key' => $key,
                 'amount' => $amount,
-                'user_id' => $user_id,
+                'description' => $description,
             ])
-            ->assertSuccessful();
-
-        $this->assertDatabaseHas('pix-transfers', [
-            'key' => $key,
-            'amount' => $amount,
-            'user_id' => $user_id,
-        ]);
-    }
-
-    public function test_can_update_pix_transfer()
-    {
-        $user = User::factory()->create();
-        $pixTransfer = PixTransfer::factory()
-            ->create([
-                'user_id' => $user->id
-            ]);
-
-        $key = $this->faker->text();
-        $amount = $this->faker->randomFloat(2, 1, 100);
-        $user_id = $user->id;
-
-        $this
-            ->actingAs($user)
-            ->put("/api/pix-transfers/{$pixTransfer->id}", [
+            ->assertSuccessful()
+            ->assertJson([
                 'key' => $key,
                 'amount' => $amount,
-            ])
-            ->assertSuccessful();
+                'description' => $description,
 
-        $this->assertDatabaseHas('pix-transfers', [
-            'key' => $key,
-            'amount' => $amount,
-            'user_id' => $user_id,
-        ]);
-    }
-
-    public function test_can_delete_pix_transfer()
-    {
-        $user = User::factory()->create();
-
-        $pixTransfer = PixTransfer::factory()
-            ->create([
-                'user_id' => $user->id
             ]);
 
-        $this
-            ->actingAs($user)
-            ->delete("/api/pix-transfers/{$pixTransfer->id}")
-            ->assertSuccessful();
-
-        $this->assertDatabaseMissing('pix_transfers', [
-            'id' => $pixTransfer->id,
+        $this->assertDatabaseHas(PixTransfer::class, [
+            'key' => $key,
+            'amount' => $amount,
+            'user_id' => $user->id,
         ]);
     }
 }

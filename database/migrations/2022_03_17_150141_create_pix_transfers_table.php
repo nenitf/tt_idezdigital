@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id');
             $table->string('key');
+            $table->string('description');
             $table->float('amount');
             $table->timestamps();
         });

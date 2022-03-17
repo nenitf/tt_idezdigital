@@ -24,6 +24,7 @@ class PixTransferFactory extends Factory
             'user_id' => User::factory(),
             'amount' => $this->faker->numberBetween(10,1000),
             'key' => $this->faker->uuid(),
+            'description' => $this->faker->text(30),
         ];
     }
 }

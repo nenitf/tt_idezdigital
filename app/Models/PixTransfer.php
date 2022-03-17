@@ -13,5 +13,6 @@ class PixTransfer extends Model
         'user_id',
         'key',
         'amount',
+        'description',
     ];
 }
