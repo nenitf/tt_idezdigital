@@ -27,11 +27,8 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::put('/user/{user}', [\App\Http\Controllers\UserController::class, 'update']);
     Route::delete('/user/{user}', [\App\Http\Controllers\UserController::class, 'destroy']);
 
-    Route::get('/pix-transfers', [\App\Http\Controllers\UserController::class, 'index']);
-    Route::get('/pix-transfers/{pix-transfer}', [\App\Http\Controllers\UserController::class, 'show']);
-    Route::put('/pix-transfers/{pix-transfer}', [\App\Http\Controllers\UserController::class, 'update']);
-    Route::delete('/pix-transfers/{pix-transfer}', [\App\Http\Controllers\UserController::class, 'destroy']);
-
-    Route::resource('/pix-transfers', \App\Http\Controllers\PixTransferController::class);
+    Route::get('/pix-transfers', [\App\Http\Controllers\PixTransferController::class, 'index']);
+    Route::get('/pix-transfers/{pix-transfer}', [\App\Http\Controllers\PixTransferController::class, 'show']);
+    Route::delete('/pix-transfers/{pix-transfer}', [\App\Http\Controllers\PixTransferController::class, 'destroy']);
 });
 
