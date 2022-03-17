@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/issue-token', [\App\Http\Controllers\AuthController::class, 'issueToken']);
-Route::post('/user', [\App\Http\Controllers\UserController::class, 'store']);
+Route::post('/register', [\App\Http\Controllers\UserController::class, 'store']);
 
 Route::middleware('auth:sanctum')->group(function(){
     Route::get('/me', function (Request $request) {
