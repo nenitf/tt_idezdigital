@@ -15,12 +15,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/issue-token', [\App\Http\Controllers\AuthController::class, 'issueToken']);
+Route::post('/user', [\App\Http\Controllers\UserController::class, 'store']);
 
 Route::middleware('auth:sanctum')->group(function(){
     Route::get('/me', function (Request $request) {
         return $request->user();
     });
 
-    Route::resource('pix-transfers', \App\Http\Controllers\PixTransferController::class);
+    Route::get('/user', [\App\Http\Controllers\UserController::class, 'index']);
+    Route::get('/user/{user}', [\App\Http\Controllers\UserController::class, 'show']);
+    Route::put('/user/{user}', [\App\Http\Controllers\UserController::class, 'update']);
+    Route::delete('/user/{user}', [\App\Http\Controllers\UserController::class, 'destroy']);
+
+    Route::get('/pix-transfers', [\App\Http\Controllers\UserController::class, 'index']);
+    Route::get('/pix-transfers/{pix-transfer}', [\App\Http\Controllers\UserController::class, 'show']);
+    Route::put('/pix-transfers/{pix-transfer}', [\App\Http\Controllers\UserController::class, 'update']);
+    Route::delete('/pix-transfers/{pix-transfer}', [\App\Http\Controllers\UserController::class, 'destroy']);
+
+    Route::resource('/pix-transfers', \App\Http\Controllers\PixTransferController::class);
 });
 

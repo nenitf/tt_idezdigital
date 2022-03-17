@@ -16,7 +16,7 @@ class UserTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $users = User::factory()->count(19)->create();
+        User::factory()->count(19)->create();
 
         $this
             ->actingAs($user)
