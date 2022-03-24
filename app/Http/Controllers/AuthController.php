@@ -9,6 +9,9 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
+    /**
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function issueToken(Request $request)
     {
         $request->validate([
@@ -25,6 +28,11 @@ class AuthController extends Controller
             ]);
         }
 
-        return $user->createToken($request->device_name)->plainTextToken;
+        $token = $user->createToken($request->device_name);
+
+        return response()->json([
+            ...$user->only(['id', 'name', 'email']),
+            'token' => $token->plainTextToken,
+        ]);
     }
 }
