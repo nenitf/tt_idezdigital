@@ -29,12 +29,12 @@ class PixTransferTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->get('/api/pix-transfers')
+            ->getJson('/api/pix-transfers')
             ->assertSuccessful()
             ->assertJsonCount(7);
     }
 
-    public function test_it_should_return_a_pix_transfer()
+    public function test_it_should_show_a_pix_transfer()
     {
         $user = User::factory()->create();
 
@@ -45,7 +45,7 @@ class PixTransferTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->get("/api/pix-transfers/{$pixTransfer->id}")
+            ->getJson("/api/pix-transfers/{$pixTransfer->id}")
             ->assertSuccessful()
             ->assertJson([
                 'id' => $pixTransfer->id,
@@ -56,7 +56,7 @@ class PixTransferTest extends TestCase
             ]);
     }
 
-    public function test_it_should_not_show_a_pix_transfer_of_another_user()
+    public function test_it_should_returns_a_not_found_error_when_get_a_pix_transfer_of_another_user()
     {
         $user = User::factory()->create();
 
@@ -64,7 +64,7 @@ class PixTransferTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->get("/api/pix-transfers/{$pixTransfer->id}")
+            ->getJson("/api/pix-transfers/{$pixTransfer->id}")
             ->assertNotFound();
     }
 
@@ -78,7 +78,7 @@ class PixTransferTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->post("/api/pix-transfers", [
+            ->postJson("/api/pix-transfers", [
                 'key' => $key,
                 'amount' => $amount,
                 'description' => $description,
