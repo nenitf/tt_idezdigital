@@ -22,11 +22,6 @@ Route::middleware('auth:sanctum')->group(function(){
         return $request->user();
     });
 
-    Route::get('/user', [\App\Http\Controllers\UserController::class, 'index']);
-    Route::get('/user/{user}', [\App\Http\Controllers\UserController::class, 'show']);
-    Route::put('/user/{user}', [\App\Http\Controllers\UserController::class, 'update']);
-    Route::delete('/user/{user}', [\App\Http\Controllers\UserController::class, 'destroy']);
-
     Route::get('/pix-transfers', [\App\Http\Controllers\PixTransferController::class, 'index']);
     Route::post('/pix-transfers', [\App\Http\Controllers\PixTransferController::class, 'store']);
     Route::get('/pix-transfers/{pixTransfer}', [\App\Http\Controllers\PixTransferController::class, 'show']);
