@@ -17,8 +17,10 @@ class PixTransferTest extends TestCase
     {
         $user = User::factory()->create();
 
+        $pixTransferQuantity = rand(0, 9);
+
         PixTransfer::factory()
-            ->count(7)
+            ->count($pixTransferQuantity)
             ->create([
                 'user_id' => $user->id,
             ]);
@@ -31,7 +33,7 @@ class PixTransferTest extends TestCase
             ->actingAs($user)
             ->getJson('/api/pix-transfers')
             ->assertSuccessful()
-            ->assertJsonCount(7);
+            ->assertJsonCount($pixTransferQuantity);
     }
 
     public function test_it_should_show_a_pix_transfer()

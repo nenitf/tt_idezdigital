@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePixTransferRequest;
-    use App\Models\PixTransfer;
+use Illuminate\Http\Client\Request;
 
 class PixTransferController extends Controller
 {
@@ -18,9 +17,9 @@ class PixTransferController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  StorePixTransferRequest  $request
+     * @param  Request  $request
      */
-    public function store(StorePixTransferRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -28,9 +27,9 @@ class PixTransferController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  PixTransfer  $pixTransfer
+     * @param  $id
      */
-    public function show(PixTransfer $pixTransfer)
+    public function show($id)
     {
         //
     }
