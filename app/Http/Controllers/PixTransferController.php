@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request;
 
 class PixTransferController extends Controller
 {

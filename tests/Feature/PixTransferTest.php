@@ -17,7 +17,7 @@ class PixTransferTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $pixTransferQuantity = rand(0, 9);
+        $pixTransferQuantity = $this->faker->numberBetween(2, 9);
 
         PixTransfer::factory()
             ->count($pixTransferQuantity)
