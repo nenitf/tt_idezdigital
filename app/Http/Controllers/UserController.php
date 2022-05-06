@@ -12,7 +12,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param StoreUserRequest $request
+     * @param  StoreUserRequest  $request
      * @return JsonResponse
      */
     public function store(StoreUserRequest $request): JsonResponse
